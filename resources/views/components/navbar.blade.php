@@ -1,7 +1,6 @@
 <nav class="absolute top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md">
 
-    <div class="max-w-7xl mx-auto px-6 py-5 
-                flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
 
 
         <a href="/" class="flex items-center gap-3">
@@ -51,11 +50,9 @@
 
                 🛒 Keranjang
 
+                @if(isset($cartCount) && $cartCount > 0)
 
-                @if($cartCount > 0)
-
-                    <span class="bg-orange-600 text-white text-xs 
-                                 px-2 py-1 rounded-full">
+                    <span class="bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
 
                         {{ $cartCount }}
 
@@ -63,30 +60,60 @@
 
                 @endif
 
-
             </a>
+
 
 
 
             @auth
 
-                <a href="/dashboard"
-                   class="hover:text-orange-400 transition">
 
-                    Dashboard
+                @if(auth()->user()->role === 'admin')
 
-                </a>
+                    <a href="/admin/dashboard"
+                       class="hover:text-orange-400 transition">
+
+                        Admin Dashboard
+
+                    </a>
+
+
+                @else
+
+
+                    <a href="/dashboard"
+                       class="hover:text-orange-400 transition">
+
+                        Dashboard
+
+                    </a>
+
+
+                @endif
+
+
+
+                <form action="{{ route('logout') }}" method="POST">
+
+                    @csrf
+
+                    <button
+                        type="submit"
+                        class="hover:text-orange-400 transition">
+
+                        Logout
+
+                    </button>
+
+                </form>
+
 
 
             @else
 
 
                 <a href="/login"
-                   class="px-5 py-2 rounded-full 
-                          border border-white
-                          hover:bg-white
-                          hover:text-black
-                          transition">
+                   class="px-5 py-2 rounded-full border border-white hover:bg-white hover:text-black transition">
 
                     Login
 
@@ -94,10 +121,7 @@
 
 
                 <a href="/register"
-                   class="px-5 py-2 rounded-full
-                          bg-orange-600
-                          hover:bg-orange-700
-                          transition">
+                   class="px-5 py-2 rounded-full bg-orange-600 hover:bg-orange-700 transition">
 
                     Register
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 
 Route::get('/', function () {
@@ -46,6 +47,12 @@ Route::get('/dashboard', function () {
 })
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
+
+
+
+Route::get('/admin/dashboard', [AdminController::class, 'index'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.dashboard');
 
 
 
