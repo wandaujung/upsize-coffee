@@ -7,6 +7,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\BookingController;
 
 
 
@@ -65,7 +67,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/admin/products', ProductController::class);
 
 
+    Route::resource('/admin/bookings', AdminBookingController::class);
+
+
 });
+
+
+
+Route::get('/booking', [BookingController::class, 'create'])
+    ->middleware('auth')
+    ->name('booking.create');
+
+
+
+Route::post('/booking', [BookingController::class, 'store'])
+    ->middleware('auth')
+    ->name('booking.store');
 
 
 
