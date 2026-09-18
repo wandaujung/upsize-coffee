@@ -6,11 +6,14 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\ProductController;
+
 
 
 Route::get('/', function () {
     return view('pages.home');
 });
+
 
 
 Route::get('/menu', [MenuController::class, 'index'])
@@ -53,6 +56,16 @@ Route::get('/dashboard', function () {
 Route::get('/admin/dashboard', [AdminController::class, 'index'])
     ->middleware(['auth', 'admin'])
     ->name('admin.dashboard');
+
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+
+    Route::resource('/admin/products', ProductController::class);
+
+
+});
 
 
 
