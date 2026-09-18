@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -59,9 +60,22 @@ class CartController extends Controller
 
 
 
+    public function update(Request $request, Cart $cart)
+    {
+        $cart->update([
+            'quantity' => $request->quantity
+        ]);
+
+
+        return redirect('/cart');
+    }
+
+
+
     public function destroy(Cart $cart)
     {
         $cart->delete();
+
 
         return redirect('/cart');
     }

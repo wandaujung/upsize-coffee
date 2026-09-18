@@ -48,19 +48,75 @@
                             </h2>
 
 
-                            <p class="text-gray-600">
-                                Jumlah : {{ $cart->quantity }}
-                            </p>
-
-
                             <p class="text-amber-700 font-bold">
                                 Rp {{ number_format($cart->product->price,0,',','.') }}
                             </p>
+
+
+
+                            <div class="flex items-center gap-3 mt-3">
+
+
+                                <form action="{{ route('cart.update', $cart->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <input 
+                                        type="hidden" 
+                                        name="quantity" 
+                                        value="{{ $cart->quantity - 1 }}"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300"
+                                        @if($cart->quantity <= 1) disabled @endif
+                                    >
+                                        -
+                                    </button>
+
+                                </form>
+
+
+
+                                <span class="font-bold text-lg">
+                                    {{ $cart->quantity }}
+                                </span>
+
+
+
+                                <form action="{{ route('cart.update', $cart->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <input 
+                                        type="hidden" 
+                                        name="quantity" 
+                                        value="{{ $cart->quantity + 1 }}"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="bg-orange-600 text-white px-3 py-1 rounded-full hover:bg-orange-700"
+                                    >
+                                        +
+                                    </button>
+
+                                </form>
+
+
+                            </div>
+
 
                         </div>
 
 
                     </div>
+
 
 
 

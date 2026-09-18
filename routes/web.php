@@ -22,9 +22,17 @@ Route::post('/cart/{product}', [CartController::class, 'store'])
     ->name('cart.store');
 
 
+
 Route::get('/cart', [CartController::class, 'index'])
     ->middleware('auth')
     ->name('cart.index');
+
+
+
+Route::patch('/cart/{cart}', [CartController::class, 'update'])
+    ->middleware('auth')
+    ->name('cart.update');
+
 
 
 Route::delete('/cart/{cart}', [CartController::class, 'destroy'])
@@ -43,6 +51,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -54,7 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
+
 });
+
 
 
 require __DIR__.'/auth.php';
