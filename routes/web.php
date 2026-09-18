@@ -6,12 +6,16 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 
+
 Route::get('/', function () {
     return view('pages.home');
 });
 
+
 Route::get('/menu', [MenuController::class, 'index'])
     ->name('menu');
+
+
 
 Route::post('/cart/{product}', [CartController::class, 'store'])
     ->middleware('auth')
@@ -21,6 +25,12 @@ Route::post('/cart/{product}', [CartController::class, 'store'])
 Route::get('/cart', [CartController::class, 'index'])
     ->middleware('auth')
     ->name('cart.index');
+
+
+Route::delete('/cart/{cart}', [CartController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('cart.destroy');
+
 
 
 Route::get('/dashboard', function () {

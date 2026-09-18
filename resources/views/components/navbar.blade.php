@@ -4,7 +4,6 @@
                 flex justify-between items-center">
 
 
-        {{-- Logo --}}
         <a href="/" class="flex items-center gap-3">
 
             <div class="text-3xl">
@@ -19,7 +18,6 @@
 
 
 
-        {{-- Menu --}}
         <div class="flex items-center gap-8 text-white font-medium">
 
 
@@ -47,9 +45,25 @@
             </a>
 
 
+
             <a href="/cart"
-               class="hover:text-orange-400 transition">
+               class="hover:text-orange-400 transition flex items-center gap-2">
+
                 🛒 Keranjang
+
+
+                @if($cartCount > 0)
+
+                    <span class="bg-orange-600 text-white text-xs 
+                                 px-2 py-1 rounded-full">
+
+                        {{ $cartCount }}
+
+                    </span>
+
+                @endif
+
+
             </a>
 
 
@@ -58,7 +72,9 @@
 
                 <a href="/dashboard"
                    class="hover:text-orange-400 transition">
+
                     Dashboard
+
                 </a>
 
 
@@ -71,7 +87,9 @@
                           hover:bg-white
                           hover:text-black
                           transition">
+
                     Login
+
                 </a>
 
 
@@ -80,7 +98,9 @@
                           bg-orange-600
                           hover:bg-orange-700
                           transition">
+
                     Register
+
                 </a>
 
 
