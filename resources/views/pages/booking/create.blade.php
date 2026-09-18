@@ -15,13 +15,33 @@
             </h1>
 
 
-            @if(session('success'))
+
+            @if(session()->has('success'))
 
                 <div class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-5">
+
                     {{ session('success') }}
+
                 </div>
 
             @endif
+
+
+
+            @if($errors->any())
+
+                <div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-5">
+
+                    @foreach($errors->all() as $error)
+
+                        <p>{{ $error }}</p>
+
+                    @endforeach
+
+                </div>
+
+            @endif
+
 
 
 
@@ -30,11 +50,13 @@
                 @csrf
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Nama Pemesan
                     </label>
+
 
                     <input
                         type="text"
@@ -46,11 +68,54 @@
 
 
 
+
+
+                <div class="mb-4">
+
+                    <label class="block mb-2">
+                        Pilih Ruangan
+                    </label>
+
+
+                    <select
+                        name="room_id"
+                        class="w-full border rounded-lg px-4 py-2">
+
+
+                        <option value="">
+                            Pilih Ruangan
+                        </option>
+
+
+
+                        @foreach($rooms as $room)
+
+                            <option value="{{ $room->id }}">
+
+                                {{ $room->name }}
+                                - Kapasitas {{ $room->capacity }} orang
+
+                            </option>
+
+
+                        @endforeach
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Tanggal Booking
                     </label>
+
 
                     <input
                         type="date"
@@ -61,11 +126,14 @@
 
 
 
+
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Jam Booking
                     </label>
+
 
                     <input
                         type="time"
@@ -76,11 +144,14 @@
 
 
 
-                <div class="mb-4">
+
+
+                <div class="mb-6">
 
                     <label class="block mb-2">
                         Jumlah Orang
                     </label>
+
 
                     <input
                         type="number"
@@ -91,51 +162,16 @@
 
 
 
-                <div class="mb-6">
-
-                    <label class="block mb-2">
-                        Pilih Ruangan
-                    </label>
-
-
-                    <select
-                        name="room"
-                        class="w-full border rounded-lg px-4 py-2">
-
-
-                        <option value="">
-                            Pilih Ruangan
-                        </option>
-
-
-                        <option value="Indoor">
-                            Indoor
-                        </option>
-
-
-                        <option value="Outdoor">
-                            Outdoor
-                        </option>
-
-
-                        <option value="VIP">
-                            VIP Room
-                        </option>
-
-
-                    </select>
-
-
-                </div>
-
 
 
                 <button
+                    type="submit"
                     class="bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700">
 
                     Booking Sekarang
 
                 </button>
+
 
 
             </form>
@@ -146,6 +182,8 @@
 
     </div>
 
+
 </div>
+
 
 @endsection

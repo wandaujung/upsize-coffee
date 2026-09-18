@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Booking extends Model
+class Order extends Model
 {
     protected $fillable = [
         'user_id',
-        'room_id',
         'name',
-        'booking_date',
-        'booking_time',
-        'people',
+        'table_number',
+        'total_price',
         'status'
     ];
 
@@ -23,8 +21,8 @@ class Booking extends Model
     }
 
 
-    public function room()
+    public function items()
     {
-        return $this->belongsTo(Room::class);
+        return $this->hasMany(OrderItem::class);
     }
 }

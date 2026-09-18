@@ -3,36 +3,40 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Booking;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
-class BookingController extends Controller
+class OrderController extends Controller
 {
+
     public function index()
     {
-        $bookings = Booking::with('room')
+        $orders = Order::with('items.product')
             ->latest()
             ->get();
 
 
-        return view('admin.bookings.index', compact('bookings'));
+        return view('admin.orders.index', compact('orders'));
     }
 
 
-    public function update(Request $request, Booking $booking)
+
+    public function update(Request $request, Order $order)
     {
         $request->validate([
             'status' => 'required'
         ]);
 
 
-        $booking->update([
+        $order->update([
             'status' => $request->status
         ]);
 
 
         return redirect()
-            ->route('bookings.index')
-            ->with('success', 'Status booking berhasil diperbarui');
+            ->back()
+            ->with('success', 'Status pesanan berhasil diperbarui');
     }
+
+
 }

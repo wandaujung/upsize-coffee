@@ -21,18 +21,23 @@
 
 
 
+
         <div class="bg-white rounded-2xl shadow-lg p-6">
 
 
             @if($carts->count() > 0)
 
 
+
                 @foreach($carts as $cart)
+
 
                 <div class="flex items-center justify-between border-b py-5">
 
 
+
                     <div class="flex items-center gap-5">
+
 
 
                         <img
@@ -41,20 +46,31 @@
                         >
 
 
+
+
                         <div>
 
+
                             <h2 class="text-xl font-bold text-gray-800">
+
                                 {{ $cart->product->name }}
+
                             </h2>
 
 
+
                             <p class="text-amber-700 font-bold">
+
                                 Rp {{ number_format($cart->product->price,0,',','.') }}
+
                             </p>
 
 
 
+
+
                             <div class="flex items-center gap-3 mt-3">
+
 
 
                                 <form action="{{ route('cart.update', $cart->id) }}" method="POST">
@@ -62,11 +78,13 @@
                                     @csrf
                                     @method('PATCH')
 
-                                    <input 
-                                        type="hidden" 
-                                        name="quantity" 
+
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
                                         value="{{ $cart->quantity - 1 }}"
                                     >
+
 
 
                                     <button
@@ -74,16 +92,24 @@
                                         class="bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300"
                                         @if($cart->quantity <= 1) disabled @endif
                                     >
+
                                         -
+
                                     </button>
+
 
                                 </form>
 
 
 
+
                                 <span class="font-bold text-lg">
+
                                     {{ $cart->quantity }}
+
                                 </span>
+
+
 
 
 
@@ -92,30 +118,40 @@
                                     @csrf
                                     @method('PATCH')
 
-                                    <input 
-                                        type="hidden" 
-                                        name="quantity" 
+
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
                                         value="{{ $cart->quantity + 1 }}"
                                     >
+
 
 
                                     <button
                                         type="submit"
                                         class="bg-orange-600 text-white px-3 py-1 rounded-full hover:bg-orange-700"
                                     >
+
                                         +
+
                                     </button>
 
+
                                 </form>
+
 
 
                             </div>
 
 
+
                         </div>
 
 
+
                     </div>
+
+
 
 
 
@@ -126,18 +162,21 @@
                         onsubmit="return confirm('Yakin ingin menghapus produk ini dari keranjang?');"
                     >
 
-                        @csrf
 
+                        @csrf
                         @method('DELETE')
+
 
 
                         <button
                             type="submit"
-                            class="bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700 transition">
+                            class="bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700"
+                        >
 
                             Hapus
 
                         </button>
+
 
 
                     </form>
@@ -147,35 +186,81 @@
                 </div>
 
 
+
                 @endforeach
 
 
 
-                <div class="mt-8 flex justify-between items-center">
 
 
-                    <h2 class="text-2xl font-bold text-gray-800">
-                        Total Belanja
-                    </h2>
 
 
-                    <span class="text-2xl font-bold text-amber-700">
-                        Rp {{ number_format($total,0,',','.') }}
-                    </span>
+                <div class="mt-8">
+
+
+                    <div class="flex justify-between items-center">
+
+
+                        <h2 class="text-2xl font-bold text-gray-800">
+
+                            Total Belanja
+
+                        </h2>
+
+
+
+
+                        <span class="text-2xl font-bold text-amber-700">
+
+                            Rp {{ number_format($total,0,',','.') }}
+
+                        </span>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div class="flex justify-end mt-6">
+
+
+                        <a href="{{ route('checkout') }}"
+                           class="bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition">
+
+                            Checkout Sekarang
+
+                        </a>
+
+
+                    </div>
+
 
 
                 </div>
 
 
 
+
+
+
             @else
+
+
 
 
                 <div class="text-center py-10">
 
+
                     <p class="text-gray-600">
+
                         Keranjang masih kosong
+
                     </p>
+
+
 
 
                     <a href="/menu"
@@ -185,16 +270,23 @@
 
                     </a>
 
+
+
                 </div>
+
+
 
 
             @endif
 
 
+
         </div>
 
 
+
     </div>
+
 
 
 </div>

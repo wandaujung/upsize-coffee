@@ -26,70 +26,86 @@
             </a>
 
 
-            <a href="/menu"
-               class="hover:text-orange-400 transition">
-                Menu
-            </a>
-
-
-            <a href="/ruangan"
-               class="hover:text-orange-400 transition">
-                Ruangan
-            </a>
-
-
-            <a href="/booking"
-               class="hover:text-orange-400 transition">
-                Booking
-            </a>
-
-
-
-            <a href="/cart"
-               class="hover:text-orange-400 transition flex items-center gap-2">
-
-                🛒 Keranjang
-
-                @if(isset($cartCount) && $cartCount > 0)
-
-                    <span class="bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
-
-                        {{ $cartCount }}
-
-                    </span>
-
-                @endif
-
-            </a>
-
-
-
 
             @auth
 
 
                 @if(auth()->user()->role === 'admin')
 
-                    <a href="/admin/dashboard"
+
+                    <a href="/admin/products"
                        class="hover:text-orange-400 transition">
-
-                        Admin Dashboard
-
+                        Kelola Menu
                     </a>
+
+
+                    <a href="/admin/bookings"
+                       class="hover:text-orange-400 transition">
+                        Kelola Booking
+                    </a>
+
+
+                    <a href="/admin/orders"
+                       class="hover:text-orange-400 transition">
+                        Kelola Pesanan
+                    </a>
+
 
 
                 @else
 
 
-                    <a href="/dashboard"
-                       class="hover:text-orange-400 transition">
 
-                        Dashboard
+                    <a href="/menu"
+                       class="hover:text-orange-400 transition">
+                        Menu
+                    </a>
+
+
+                    <a href="/ruangan"
+                       class="hover:text-orange-400 transition">
+                        Ruangan
+                    </a>
+
+
+                    <a href="/booking"
+                       class="hover:text-orange-400 transition">
+                        Booking
+                    </a>
+
+
+
+                    <a href="/cart"
+                       class="hover:text-orange-400 transition flex items-center gap-2">
+
+                        🛒 Keranjang
+
+
+                        @if(isset($cartCount) && $cartCount > 0)
+
+                            <span class="bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
+
+                                {{ $cartCount }}
+
+                            </span>
+
+                        @endif
+
 
                     </a>
 
 
+
+                    <a href="/orders"
+                       class="hover:text-orange-400 transition">
+                        Pesanan Saya
+                    </a>
+
+
+
                 @endif
+
+
 
 
 
@@ -109,7 +125,9 @@
 
 
 
+
             @else
+
 
 
                 <a href="/login"
@@ -120,6 +138,7 @@
                 </a>
 
 
+
                 <a href="/register"
                    class="px-5 py-2 rounded-full bg-orange-600 hover:bg-orange-700 transition">
 
@@ -128,12 +147,15 @@
                 </a>
 
 
+
             @endauth
+
 
 
         </div>
 
 
     </div>
+
 
 </nav>

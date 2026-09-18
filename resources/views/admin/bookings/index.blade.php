@@ -7,184 +7,206 @@
     <div class="max-w-6xl mx-auto px-6">
 
 
-        <div class="mb-10">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
 
-            <h1 class="text-3xl font-bold text-amber-700">
+
+            <h1 class="text-3xl font-bold text-amber-700 mb-8">
                 Kelola Booking
             </h1>
 
-            <p class="text-gray-600 mt-2">
-                Daftar pemesanan ruangan pelanggan
-            </p>
-
-        </div>
 
 
+            @if(session('success'))
 
-        <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-5">
 
+                    {{ session('success') }}
 
-            <table class="w-full">
+                </div>
 
-
-                <thead>
-
-                    <tr class="border-b">
-
-
-                        <th class="text-left py-4">
-                            Nama
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Tanggal
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Jam
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Orang
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Ruangan
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Status
-                        </th>
-
-
-                        <th class="text-center py-4">
-                            Aksi
-                        </th>
-
-
-                    </tr>
-
-                </thead>
+            @endif
 
 
 
-                <tbody>
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
 
 
-                @foreach($bookings as $booking)
+                    <thead>
+
+                        <tr class="border-b">
+
+                            <th class="text-left py-3">
+                                Nama
+                            </th>
 
 
-                    <tr class="border-b">
+                            <th class="text-left py-3">
+                                Ruangan
+                            </th>
 
 
-                        <td class="py-4">
-                            {{ $booking->name }}
-                        </td>
+                            <th class="text-left py-3">
+                                Tanggal
+                            </th>
 
 
-                        <td class="text-center">
-                            {{ $booking->booking_date }}
-                        </td>
+                            <th class="text-left py-3">
+                                Jam
+                            </th>
 
 
-                        <td class="text-center">
-                            {{ $booking->booking_time }}
-                        </td>
+                            <th class="text-left py-3">
+                                Orang
+                            </th>
 
 
-                        <td class="text-center">
-                            {{ $booking->people }}
-                        </td>
+                            <th class="text-left py-3">
+                                Status
+                            </th>
 
 
-                        <td class="text-center">
-                            {{ $booking->room }}
-                        </td>
+                            <th class="text-left py-3">
+                                Aksi
+                            </th>
 
+                        </tr>
 
-                        <td class="text-center">
-
-                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
-
-                                {{ $booking->status }}
-
-                            </span>
-
-                        </td>
+                    </thead>
 
 
 
-                        <td class="text-center">
+                    <tbody>
 
 
-                            <form action="{{ route('bookings.update', $booking->id) }}"
-                                  method="POST">
+                    @foreach($bookings as $booking)
 
 
-                                @csrf
-                                @method('PUT')
+                        <tr class="border-b">
 
 
-                                <select name="status"
+                            <td class="py-4">
+                                {{ $booking->name }}
+                            </td>
+
+
+
+                            <td class="py-4">
+
+                                {{ $booking->room->name ?? '-' }}
+
+                            </td>
+
+
+
+                            <td class="py-4">
+
+                                {{ $booking->booking_date }}
+
+                            </td>
+
+
+
+                            <td class="py-4">
+
+                                {{ $booking->booking_time }}
+
+                            </td>
+
+
+
+                            <td class="py-4">
+
+                                {{ $booking->people }}
+
+                            </td>
+
+
+
+                            <td class="py-4">
+
+                                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">
+
+                                    {{ $booking->status }}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <td class="py-4">
+
+
+                                <form action="{{ route('bookings.update',$booking->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('PUT')
+
+
+                                    <select name="status"
                                         class="border rounded-lg px-3 py-2">
 
 
-                                    <option value="pending"
-                                        {{ $booking->status == 'pending' ? 'selected' : '' }}>
-                                        Pending
-                                    </option>
+                                        <option value="pending">
+                                            Pending
+                                        </option>
 
 
-                                    <option value="diterima"
-                                        {{ $booking->status == 'diterima' ? 'selected' : '' }}>
-                                        Diterima
-                                    </option>
+                                        <option value="diproses">
+                                            Diproses
+                                        </option>
 
 
-                                    <option value="selesai"
-                                        {{ $booking->status == 'selesai' ? 'selected' : '' }}>
-                                        Selesai
-                                    </option>
+                                        <option value="selesai">
+                                            Selesai
+                                        </option>
 
 
-                                </select>
+                                        <option value="ditolak">
+                                            Ditolak
+                                        </option>
 
 
-                                <button
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full ml-2">
-
-                                    Simpan
-
-                                </button>
+                                    </select>
 
 
-                            </form>
+                                    <button
+                                        class="bg-orange-600 text-white px-4 py-2 rounded-lg">
+
+                                        Update
+
+                                    </button>
 
 
-                        </td>
+                                </form>
 
 
-                    </tr>
+                            </td>
 
 
-                @endforeach
+                        </tr>
 
 
-                </tbody>
+                    @endforeach
 
 
-            </table>
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
 
 
         </div>
 
 
     </div>
+
 
 </div>
 
