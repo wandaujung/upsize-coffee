@@ -38,6 +38,7 @@
 
                         <tr class="border-b">
 
+
                             <th class="text-left py-3">
                                 Nama
                             </th>
@@ -71,6 +72,7 @@
                             <th class="text-left py-3">
                                 Aksi
                             </th>
+
 
                         </tr>
 
@@ -127,11 +129,45 @@
 
                             <td class="py-4">
 
-                                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">
 
-                                    {{ $booking->status }}
+                                @if($booking->status == 'pending')
 
-                                </span>
+                                    <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700">
+
+                                        Pending
+
+                                    </span>
+
+
+                                @elseif($booking->status == 'diproses')
+
+                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+
+                                        Diproses
+
+                                    </span>
+
+
+                                @elseif($booking->status == 'selesai')
+
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700">
+
+                                        Selesai
+
+                                    </span>
+
+
+                                @else
+
+                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-700">
+
+                                        Ditolak
+
+                                    </span>
+
+
+                                @endif
+
 
                             </td>
 
@@ -140,51 +176,81 @@
                             <td class="py-4">
 
 
-                                <form action="{{ route('bookings.update',$booking->id) }}" method="POST">
+                                <form 
+                                    action="{{ route('bookings.update', $booking->id) }}" 
+                                    method="POST"
+                                    class="flex items-center gap-3">
+
 
                                     @csrf
+
                                     @method('PUT')
 
 
-                                    <select name="status"
+
+                                    <select 
+                                        name="status"
                                         class="border rounded-lg px-3 py-2">
 
 
-                                        <option value="pending">
+
+                                        <option value="pending"
+                                            {{ $booking->status == 'pending' ? 'selected' : '' }}>
+
                                             Pending
+
                                         </option>
 
 
-                                        <option value="diproses">
+
+                                        <option value="diproses"
+                                            {{ $booking->status == 'diproses' ? 'selected' : '' }}>
+
                                             Diproses
+
                                         </option>
 
 
-                                        <option value="selesai">
+
+                                        <option value="selesai"
+                                            {{ $booking->status == 'selesai' ? 'selected' : '' }}>
+
                                             Selesai
+
                                         </option>
 
 
-                                        <option value="ditolak">
+
+                                        <option value="ditolak"
+                                            {{ $booking->status == 'ditolak' ? 'selected' : '' }}>
+
                                             Ditolak
+
                                         </option>
+
 
 
                                     </select>
 
 
+
                                     <button
-                                        class="bg-orange-600 text-white px-4 py-2 rounded-lg">
+                                        type="submit"
+                                        class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+
 
                                         Update
 
+
                                     </button>
+
 
 
                                 </form>
 
 
                             </td>
+
 
 
                         </tr>
