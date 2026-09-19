@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-
     public function index()
     {
         $orders = Order::with('items.product')
@@ -18,7 +17,6 @@ class OrderController extends Controller
 
         return view('admin.orders.index', compact('orders'));
     }
-
 
 
     public function update(Request $request, Order $order)
@@ -34,9 +32,7 @@ class OrderController extends Controller
 
 
         return redirect()
-            ->back()
+            ->route('orders.index')
             ->with('success', 'Status pesanan berhasil diperbarui');
     }
-
-
 }

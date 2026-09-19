@@ -21,13 +21,17 @@ class OrderController extends Controller
     }
 
 
-
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'table_number' => 'required',
+        ]);
+
+
         $carts = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
-
 
 
         if ($carts->count() == 0) {
@@ -35,7 +39,6 @@ class OrderController extends Controller
             return redirect('/cart');
 
         }
-
 
 
         $total = 0;
@@ -46,7 +49,6 @@ class OrderController extends Controller
             $total += $cart->product->price * $cart->quantity;
 
         }
-
 
 
         $order = Order::create([
@@ -80,7 +82,6 @@ class OrderController extends Controller
 
             ]);
 
-
         }
 
 
@@ -89,7 +90,7 @@ class OrderController extends Controller
 
 
 
-        return redirect('/dashboard')
+        return redirect('/orders')
             ->with('success', 'Pesanan berhasil dibuat');
 
     }
