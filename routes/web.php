@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\RoomController as AdminRoomController;
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\OrderController;
@@ -69,6 +70,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/admin/bookings', AdminBookingController::class);
 
     Route::resource('/admin/orders', AdminOrderController::class);
+
+    Route::resource('/admin/rooms', AdminRoomController::class);
 
 });
 

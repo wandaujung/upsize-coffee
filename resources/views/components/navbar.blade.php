@@ -17,13 +17,17 @@
 
 
 
+
         <div class="flex items-center gap-8 text-white font-medium">
 
 
-            <a href="/"
+            <a href="/" 
                class="hover:text-orange-400 transition">
+
                 Home
+
             </a>
+
 
 
 
@@ -35,19 +39,36 @@
 
                     <a href="/admin/products"
                        class="hover:text-orange-400 transition">
+
                         Kelola Menu
+
                     </a>
+
+
+
+                    <a href="/admin/rooms"
+                       class="hover:text-orange-400 transition">
+
+                        Kelola Ruangan
+
+                    </a>
+
 
 
                     <a href="/admin/bookings"
                        class="hover:text-orange-400 transition">
+
                         Kelola Booking
+
                     </a>
+
 
 
                     <a href="/admin/orders"
                        class="hover:text-orange-400 transition">
+
                         Kelola Pesanan
+
                     </a>
 
 
@@ -58,25 +79,35 @@
 
                     <a href="/menu"
                        class="hover:text-orange-400 transition">
+
                         Menu
+
                     </a>
+
 
 
                     <a href="/ruangan"
                        class="hover:text-orange-400 transition">
+
                         Ruangan
+
                     </a>
+
 
 
                     <a href="/booking"
                        class="hover:text-orange-400 transition">
+
                         Booking
+
                     </a>
+
 
 
 
                     <a href="/cart"
                        class="hover:text-orange-400 transition flex items-center gap-2">
+
 
                         🛒 Keranjang
 
@@ -96,9 +127,12 @@
 
 
 
+
                     <a href="/orders"
                        class="hover:text-orange-400 transition">
+
                         Pesanan Saya
+
                     </a>
 
 
@@ -108,10 +142,10 @@
 
 
 
-
                 <form action="{{ route('logout') }}" method="POST">
 
                     @csrf
+
 
                     <button
                         type="submit"
@@ -120,6 +154,7 @@
                         Logout
 
                     </button>
+
 
                 </form>
 
