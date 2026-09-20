@@ -6,11 +6,23 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
 use App\Events\OrderCreated;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    protected $notificationService;
+
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
+
+
     public function checkout()
     {
         $carts = Cart::with('product')
@@ -22,6 +34,8 @@ class OrderController extends Controller
     }
 
 
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -30,9 +44,11 @@ class OrderController extends Controller
         ]);
 
 
+
         $carts = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
+
 
 
         if ($carts->count() == 0) {
@@ -42,7 +58,9 @@ class OrderController extends Controller
         }
 
 
+
         $total = 0;
+
 
 
         foreach ($carts as $cart) {
@@ -50,6 +68,8 @@ class OrderController extends Controller
             $total += $cart->product->price * $cart->quantity;
 
         }
+
+
 
 
         $order = Order::create([
@@ -67,6 +87,7 @@ class OrderController extends Controller
             'payment_status' => 'pending',
 
         ]);
+
 
 
 
@@ -89,11 +110,20 @@ class OrderController extends Controller
 
 
 
+
         Cart::where('user_id', Auth::id())->delete();
 
 
 
+
+        // Event Driven: update stok produk
         event(new OrderCreated($order));
+
+
+
+        // Microservice: kirim notifikasi
+        $this->notificationService->send($order);
+
 
 
 
