@@ -8,12 +8,20 @@ class NotificationService
 {
     public function send($order)
     {
-        return Http::post(
-            'http://127.0.0.1:8001/api/notifications',
-            [
-                'order_id' => $order->id,
-                'message' => 'Pesanan baru dari ' . $order->name,
-            ]
-        );
+        try {
+
+            return Http::timeout(3)->post(
+                'http://127.0.0.1:8001/api/notifications',
+                [
+                    'order_id' => $order->id,
+                    'message' => 'Pesanan baru dari ' . $order->name,
+                ]
+            );
+
+        } catch (\Exception $e) {
+
+            return null;
+
+        }
     }
 }
