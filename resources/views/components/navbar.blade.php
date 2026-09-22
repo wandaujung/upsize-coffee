@@ -1,196 +1,51 @@
-<nav class="absolute top-0 left-0 w-full z-50 bg-black/30 backdrop-blur-md">
+<nav class="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md shadow-md">
 
-    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
         <a href="/" class="flex items-center gap-3">
-
-            <div class="text-3xl">
-                ☕
-            </div>
-
-            <h1 class="text-2xl font-bold text-white">
+            <span class="text-xl">☕</span>
+            <span class="text-2xl font-bold text-white">
                 UpSize Coffee
-            </h1>
-
+            </span>
         </a>
 
+        <div class="flex items-center gap-10">
 
-
-
-        <div class="flex items-center gap-8 text-white font-medium">
-
-
-            <a href="/" 
-               class="hover:text-orange-400 transition">
-
+            <a href="/" class="text-white font-semibold hover:text-orange-300">
                 Home
-
             </a>
 
+            <a href="/menu" class="text-white font-semibold hover:text-orange-300">
+                Menu
+            </a>
 
+            <a href="/ruangan" class="text-white font-semibold hover:text-orange-300">
+                Ruangan
+            </a>
 
+            <a href="/booking" class="text-white font-semibold hover:text-orange-300">
+                Booking
+            </a>
 
-            @auth
+            <a href="/cart" class="text-white font-semibold hover:text-orange-300">
+                🛒 Keranjang
+            </a>
 
+            <a href="/orders" class="text-white font-semibold hover:text-orange-300">
+                Pesanan Saya
+            </a>
 
-                @if(auth()->user()->role === 'admin')
+            <form action="/logout" method="POST">
+                @csrf
 
+                <button class="text-white font-semibold hover:text-orange-300">
+                    Logout
+                </button>
 
-                    <a href="/admin/products"
-                       class="hover:text-orange-400 transition">
-
-                        Kelola Menu
-
-                    </a>
-
-
-
-                    <a href="/admin/rooms"
-                       class="hover:text-orange-400 transition">
-
-                        Kelola Ruangan
-
-                    </a>
-
-
-
-                    <a href="/admin/bookings"
-                       class="hover:text-orange-400 transition">
-
-                        Kelola Booking
-
-                    </a>
-
-
-
-                    <a href="/admin/orders"
-                       class="hover:text-orange-400 transition">
-
-                        Kelola Pesanan
-
-                    </a>
-
-
-
-                @else
-
-
-
-                    <a href="/menu"
-                       class="hover:text-orange-400 transition">
-
-                        Menu
-
-                    </a>
-
-
-
-                    <a href="/ruangan"
-                       class="hover:text-orange-400 transition">
-
-                        Ruangan
-
-                    </a>
-
-
-
-                    <a href="/booking"
-                       class="hover:text-orange-400 transition">
-
-                        Booking
-
-                    </a>
-
-
-
-
-                    <a href="/cart"
-                       class="hover:text-orange-400 transition flex items-center gap-2">
-
-
-                        🛒 Keranjang
-
-
-                        @if(isset($cartCount) && $cartCount > 0)
-
-                            <span class="bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
-
-                                {{ $cartCount }}
-
-                            </span>
-
-                        @endif
-
-
-                    </a>
-
-
-
-
-                    <a href="/orders"
-                       class="hover:text-orange-400 transition">
-
-                        Pesanan Saya
-
-                    </a>
-
-
-
-                @endif
-
-
-
-
-                <form action="{{ route('logout') }}" method="POST">
-
-                    @csrf
-
-
-                    <button
-                        type="submit"
-                        class="hover:text-orange-400 transition">
-
-                        Logout
-
-                    </button>
-
-
-                </form>
-
-
-
-
-            @else
-
-
-
-                <a href="/login"
-                   class="px-5 py-2 rounded-full border border-white hover:bg-white hover:text-black transition">
-
-                    Login
-
-                </a>
-
-
-
-                <a href="/register"
-                   class="px-5 py-2 rounded-full bg-orange-600 hover:bg-orange-700 transition">
-
-                    Register
-
-                </a>
-
-
-
-            @endauth
-
-
+            </form>
 
         </div>
 
-
     </div>
-
 
 </nav>
