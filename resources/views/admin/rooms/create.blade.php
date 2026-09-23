@@ -16,7 +16,7 @@
 
 
 
-            <form action="{{ route('rooms.store') }}" method="POST">
+            <form action="{{ route('rooms.store') }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
 
@@ -32,7 +32,8 @@
                     <input
                         type="text"
                         name="name"
-                        class="w-full border rounded-lg px-4 py-2">
+                        class="w-full border rounded-lg px-4 py-2"
+                        required>
 
                 </div>
 
@@ -49,7 +50,8 @@
                     <input
                         type="number"
                         name="capacity"
-                        class="w-full border rounded-lg px-4 py-2">
+                        class="w-full border rounded-lg px-4 py-2"
+                        required>
 
                 </div>
 
@@ -65,7 +67,8 @@
 
                     <textarea
                         name="description"
-                        class="w-full border rounded-lg px-4 py-2"></textarea>
+                        class="w-full border rounded-lg px-4 py-2"
+                        required></textarea>
 
                 </div>
 
@@ -75,13 +78,14 @@
                 <div class="mb-6">
 
                     <label class="block mb-2">
-                        Gambar
+                        Gambar Ruangan
                     </label>
 
 
                     <input
-                        type="text"
+                        type="file"
                         name="image"
+                        accept="image/*"
                         class="w-full border rounded-lg px-4 py-2">
 
                 </div>

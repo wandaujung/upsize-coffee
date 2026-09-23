@@ -30,12 +30,41 @@ class AdminController extends Controller
             ->get();
 
 
+        $monthlySales = Order::select(
+                DB::raw('MONTH(created_at) as month'),
+                DB::raw('SUM(total_price) as total')
+            )
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+
+        $topProducts = DB::table('order_items')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->select(
+                'products.name',
+                DB::raw('SUM(order_items.quantity) as total')
+            )
+            ->groupBy('products.name')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+
+
+        $latestOrders = Order::latest()
+            ->limit(5)
+            ->get();
+
+
         return view('admin.dashboard', compact(
             'totalRevenue',
             'totalOrders',
             'totalBookings',
             'totalProducts',
-            'salesChart'
+            'salesChart',
+            'monthlySales',
+            'topProducts',
+            'latestOrders'
         ));
     }
 }

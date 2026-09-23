@@ -16,7 +16,7 @@
 
 
 
-            <form action="{{ route('rooms.update', $room->id) }}" method="POST">
+            <form action="{{ route('rooms.update', $room->id) }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
                 @method('PUT')
@@ -34,7 +34,8 @@
                         type="text"
                         name="name"
                         value="{{ $room->name }}"
-                        class="w-full border rounded-lg px-4 py-2">
+                        class="w-full border rounded-lg px-4 py-2"
+                        required>
 
                 </div>
 
@@ -52,7 +53,8 @@
                         type="number"
                         name="capacity"
                         value="{{ $room->capacity }}"
-                        class="w-full border rounded-lg px-4 py-2">
+                        class="w-full border rounded-lg px-4 py-2"
+                        required>
 
                 </div>
 
@@ -68,7 +70,8 @@
 
                     <textarea
                         name="description"
-                        class="w-full border rounded-lg px-4 py-2">{{ $room->description }}</textarea>
+                        class="w-full border rounded-lg px-4 py-2"
+                        required>{{ $room->description }}</textarea>
 
                 </div>
 
@@ -78,15 +81,30 @@
                 <div class="mb-6">
 
                     <label class="block mb-2">
-                        Gambar
+                        Gambar Ruangan
                     </label>
 
 
+                    @if($room->image)
+
+                        <img 
+                            src="{{ asset('storage/'.$room->image) }}"
+                            class="w-40 h-32 object-cover rounded-lg mb-3"
+                        >
+
+                    @endif
+
+
+
                     <input
-                        type="text"
+                        type="file"
                         name="image"
-                        value="{{ $room->image }}"
+                        accept="image/*"
                         class="w-full border rounded-lg px-4 py-2">
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Kosongkan jika tidak ingin mengganti gambar
+                    </p>
 
                 </div>
 
