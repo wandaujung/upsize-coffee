@@ -12,7 +12,8 @@ class Order extends Model
         'table_number',
         'total_price',
         'status',
-        'payment_status'
+        'payment_status',
+        'snap_token'
     ];
 
 

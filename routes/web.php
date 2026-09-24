@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
@@ -94,6 +95,11 @@ Route::get('/checkout', [OrderController::class, 'checkout'])
 Route::post('/checkout', [OrderController::class, 'store'])
     ->middleware('auth')
     ->name('checkout.store');
+
+
+Route::get('/payment/{order}', [PaymentController::class, 'show'])
+    ->middleware('auth')
+    ->name('payment.show');
 
 
 Route::get('/orders', [MyOrderController::class, 'index'])

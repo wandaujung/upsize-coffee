@@ -7,20 +7,23 @@ use App\Models\OrderItem;
 use App\Models\Cart;
 use App\Events\OrderCreated;
 use App\Services\NotificationService;
+use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-
     protected $notificationService;
+    protected $midtransService;
 
-
-    public function __construct(NotificationService $notificationService)
+    public function __construct(
+        NotificationService $notificationService,
+        MidtransService $midtransService
+    )
     {
         $this->notificationService = $notificationService;
+        $this->midtransService = $midtransService;
     }
-
 
 
     public function checkout()
@@ -29,11 +32,8 @@ class OrderController extends Controller
             ->where('user_id', Auth::id())
             ->get();
 
-
         return view('pages.checkout.index', compact('carts'));
     }
-
-
 
 
     public function store(Request $request)
@@ -44,89 +44,65 @@ class OrderController extends Controller
         ]);
 
 
-
         $carts = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
 
 
-
         if ($carts->count() == 0) {
-
             return redirect('/cart');
-
         }
-
 
 
         $total = 0;
 
 
-
         foreach ($carts as $cart) {
-
             $total += $cart->product->price * $cart->quantity;
-
         }
 
 
-
-
         $order = Order::create([
-
             'user_id' => Auth::id(),
-
             'name' => $request->name,
-
             'table_number' => $request->table_number,
-
             'total_price' => $total,
-
             'status' => 'pending',
-
             'payment_status' => 'pending',
-
         ]);
-
-
 
 
         foreach ($carts as $cart) {
 
-
             OrderItem::create([
-
                 'order_id' => $order->id,
-
                 'product_id' => $cart->product_id,
-
                 'quantity' => $cart->quantity,
-
                 'price' => $cart->product->price,
-
             ]);
 
         }
 
 
+        $snapToken = $this->midtransService->createTransaction($order);
+
+
+        $order->update([
+            'snap_token' => $snapToken
+        ]);
 
 
         Cart::where('user_id', Auth::id())->delete();
 
 
-
-
         event(new OrderCreated($order));
-
 
 
         $this->notificationService->send($order);
 
 
-
-
-        return redirect('/orders')
+        return redirect()
+            ->route('payment.show', $order->id)
             ->with('success', 'Pesanan berhasil dibuat');
-
     }
 }

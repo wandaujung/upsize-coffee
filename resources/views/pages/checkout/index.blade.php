@@ -163,7 +163,7 @@
 
                     class="bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700">
 
-                    Buat Pesanan
+                    Lanjut Pembayaran
 
                 </button>
 

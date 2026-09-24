@@ -10,22 +10,34 @@ class PaymentController extends Controller
 {
     public function callback(Request $request)
     {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'status' => 'required'
-        ]);
+        $orderId = str_replace('ORDER-', '', $request->order_id);
+
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'Order tidak ditemukan'
+            ], 404);
+        }
 
 
-        $order = Order::find($request->order_id);
-
-
-        if ($request->status == 'success') {
+        if ($request->transaction_status == 'settlement') {
 
             $order->update([
                 'payment_status' => 'paid'
             ]);
 
-        } else {
+        } elseif ($request->transaction_status == 'pending') {
+
+            $order->update([
+                'payment_status' => 'pending'
+            ]);
+
+        } elseif (
+            $request->transaction_status == 'deny' ||
+            $request->transaction_status == 'expire' ||
+            $request->transaction_status == 'cancel'
+        ) {
 
             $order->update([
                 'payment_status' => 'failed'
