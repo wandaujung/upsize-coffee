@@ -40,10 +40,12 @@
 
 
 
-                        <img
-                            src="{{ asset('images/'.$cart->product->image) }}"
-                            class="w-24 h-24 object-cover rounded-xl"
-                        >
+                <img
+                    src="{{ str_contains($cart->product->image, 'products/') 
+                        ? asset('storage/'.$cart->product->image) 
+                        : asset('images/'.$cart->product->image) }}"
+                    class="w-24 h-24 object-cover rounded-xl"
+                >
 
 
 
