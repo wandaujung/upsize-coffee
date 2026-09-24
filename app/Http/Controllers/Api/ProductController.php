@@ -11,10 +11,18 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-
         return response()->json([
             'status' => true,
             'data' => $products
+        ]);
+    }
+
+
+    public function show(Product $product)
+    {
+        return response()->json([
+            'status' => true,
+            'data' => $product
         ]);
     }
 }

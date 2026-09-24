@@ -116,12 +116,10 @@ class OrderController extends Controller
 
 
 
-        // Event Driven: update stok produk
         event(new OrderCreated($order));
 
 
 
-        // Microservice: kirim notifikasi
         $this->notificationService->send($order);
 
 

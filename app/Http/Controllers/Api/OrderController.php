@@ -15,7 +15,6 @@ class OrderController extends Controller
             ->latest()
             ->get();
 
-
         return response()->json([
             'status' => true,
             'data' => $orders
