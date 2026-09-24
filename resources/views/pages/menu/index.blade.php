@@ -30,7 +30,7 @@
 
 
                 <img
-                    src="{{ asset('images/'.$product->image) }}"
+                    src="{{ asset('storage/'.$product->image) }}"
                     alt="{{ $product->name }}"
                     class="w-full h-56 object-cover"
                 >

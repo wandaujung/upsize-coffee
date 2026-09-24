@@ -16,9 +16,12 @@
 
 
 
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.store') }}" 
+                  method="POST"
+                  enctype="multipart/form-data">
 
                 @csrf
+
 
 
                 <div class="mb-4">
@@ -26,6 +29,7 @@
                     <label class="block mb-2">
                         Nama Produk
                     </label>
+
 
                     <input 
                         type="text"
@@ -36,11 +40,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Deskripsi
                     </label>
+
 
                     <textarea
                         name="description"
@@ -50,11 +56,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Harga
                     </label>
+
 
                     <input 
                         type="number"
@@ -65,11 +73,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Stok
                     </label>
+
 
                     <input 
                         type="number"
@@ -80,19 +90,21 @@
 
 
 
+
                 <div class="mb-6">
 
                     <label class="block mb-2">
-                        Nama File Gambar
+                        Gambar Produk
                     </label>
 
+
                     <input 
-                        type="text"
+                        type="file"
                         name="image"
-                        placeholder="contoh: espresso.jpg"
                         class="w-full border rounded-lg px-4 py-2">
 
                 </div>
+
 
 
 

@@ -6,6 +6,7 @@
 
     <div class="max-w-3xl mx-auto px-6">
 
+
         <div class="bg-white rounded-2xl shadow-lg p-8">
 
 
@@ -15,10 +16,15 @@
 
 
 
-            <form action="{{ route('products.update', $product->id) }}" method="POST">
+
+            <form action="{{ route('products.update', $product->id) }}"
+                  method="POST"
+                  enctype="multipart/form-data">
+
 
                 @csrf
                 @method('PUT')
+
 
 
                 <div class="mb-4">
@@ -26,6 +32,7 @@
                     <label class="block mb-2">
                         Nama Produk
                     </label>
+
 
                     <input 
                         type="text"
@@ -37,11 +44,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Deskripsi
                     </label>
+
 
                     <textarea
                         name="description"
@@ -51,11 +60,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Harga
                     </label>
+
 
                     <input 
                         type="number"
@@ -67,11 +78,13 @@
 
 
 
+
                 <div class="mb-4">
 
                     <label class="block mb-2">
                         Stok
                     </label>
+
 
                     <input 
                         type="number"
@@ -83,19 +96,36 @@
 
 
 
+
                 <div class="mb-6">
 
                     <label class="block mb-2">
-                        Nama File Gambar
+                        Gambar Produk
                     </label>
 
+
+                    @if($product->image)
+
+                        <img 
+                            src="{{ asset('storage/'.$product->image) }}"
+                            class="w-40 h-40 object-cover rounded-lg mb-4">
+
+                    @endif
+
+
+
                     <input 
-                        type="text"
+                        type="file"
                         name="image"
-                        value="{{ $product->image }}"
                         class="w-full border rounded-lg px-4 py-2">
 
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Kosongkan jika tidak ingin mengganti gambar
+                    </p>
+
                 </div>
+
 
 
 
@@ -105,6 +135,7 @@
                     Update Produk
 
                 </button>
+
 
 
             </form>

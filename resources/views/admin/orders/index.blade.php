@@ -4,7 +4,7 @@
 
 <div class="bg-gray-100 min-h-screen py-12">
 
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
 
 
         <div class="mb-10">
@@ -21,7 +21,8 @@
 
 
 
-        <div class="bg-white rounded-2xl shadow-lg p-6">
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 overflow-x-auto">
 
 
             <table class="w-full">
@@ -35,21 +36,31 @@
                             Nama
                         </th>
 
+
+                        <th class="text-center py-4">
+                            Produk
+                        </th>
+
+
                         <th class="text-center py-4">
                             Meja
                         </th>
+
 
                         <th class="text-center py-4">
                             Total
                         </th>
 
+
                         <th class="text-center py-4">
                             Status
                         </th>
 
+
                         <th class="text-center py-4">
                             Aksi
                         </th>
+
 
                     </tr>
 
@@ -62,6 +73,7 @@
 
                 @foreach($orders as $order)
 
+
                     <tr class="border-b">
 
 
@@ -70,25 +82,89 @@
                         </td>
 
 
+
+                        <td class="text-center">
+
+
+                            @foreach($order->items as $item)
+
+                                <p>
+                                    {{ $item->product->name }}
+                                    ({{ $item->quantity }})
+                                </p>
+
+                            @endforeach
+
+
+                        </td>
+
+
+
+
                         <td class="text-center">
                             {{ $order->table_number }}
                         </td>
 
 
+
+
                         <td class="text-center">
+
                             Rp {{ number_format($order->total_price,0,',','.') }}
+
                         </td>
+
+
+
 
 
                         <td class="text-center">
 
-                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
 
-                                {{ $order->status }}
+                            @if($order->status == 'selesai')
 
-                            </span>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+
+                                    {{ $order->status }}
+
+                                </span>
+
+
+                            @elseif($order->status == 'diproses')
+
+                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+
+                                    {{ $order->status }}
+
+                                </span>
+
+
+                            @elseif($order->status == 'dibatalkan')
+
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">
+
+                                    {{ $order->status }}
+
+                                </span>
+
+
+                            @else
+
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
+
+                                    {{ $order->status }}
+
+                                </span>
+
+
+                            @endif
+
 
                         </td>
+
+
+
+
 
 
                         <td class="text-center">
@@ -99,7 +175,9 @@
 
 
                                 @csrf
+
                                 @method('PUT')
+
 
 
                                 <select name="status"
@@ -112,10 +190,12 @@
                                     </option>
 
 
+
                                     <option value="diproses"
                                     {{ $order->status == 'diproses' ? 'selected' : '' }}>
                                         Diproses
                                     </option>
+
 
 
                                     <option value="selesai"
@@ -124,7 +204,16 @@
                                     </option>
 
 
+
+                                    <option value="dibatalkan"
+                                    {{ $order->status == 'dibatalkan' ? 'selected' : '' }}>
+                                        Dibatalkan
+                                    </option>
+
+
                                 </select>
+
+
 
 
                                 <button

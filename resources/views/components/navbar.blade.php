@@ -18,16 +18,27 @@
 
 
 
+
         <div class="flex items-center gap-8">
 
 
             @if(auth()->check() && auth()->user()->role == 'admin')
 
 
+
                 <a href="/admin/dashboard"
                     class="text-white font-semibold hover:text-orange-300">
 
                     Statistik Penjualan
+
+                </a>
+
+
+
+                <a href="/admin/products"
+                    class="text-white font-semibold hover:text-orange-300">
+
+                    Kelola Produk
 
                 </a>
 
@@ -60,7 +71,10 @@
 
 
 
+
             @else
+
+
 
 
                 <a href="/"
@@ -114,6 +128,7 @@
 
 
 
+
             <form action="/logout" method="POST">
 
                 @csrf
@@ -132,6 +147,7 @@
 
 
         </div>
+
 
 
     </div>
