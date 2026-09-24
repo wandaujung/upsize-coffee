@@ -8,6 +8,7 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
@@ -17,8 +18,9 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect('/dashboard');
 });
+
 
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
@@ -30,6 +32,7 @@ test('users can not authenticate with invalid password', function () {
 
     $this->assertGuest();
 });
+
 
 test('users can logout', function () {
     $user = User::factory()->create();

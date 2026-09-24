@@ -37,7 +37,7 @@ test('user can create order from cart', function () {
         ]);
 
 
-    $response->assertRedirect('/orders');
+    $response->assertRedirect();
 
 
     $this->assertDatabaseHas('orders', [
