@@ -16,7 +16,7 @@
 
     @include('components.navbar')
 
-    <main class="pt-24">
+    <main class="pt-32">
         @yield('content')
     </main>
 
