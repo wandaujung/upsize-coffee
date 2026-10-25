@@ -1,3 +1,4 @@
+
 services:
 
   app:
@@ -34,7 +35,7 @@ services:
 
     environment:
       MYSQL_DATABASE: upsize
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     ports:
       - "3307:3306"
@@ -60,8 +61,31 @@ services:
       - upsize-network
 
 
+  rabbitmq:
+    image: rabbitmq:3-management
+
+    container_name: upsize-rabbitmq
+
+    restart: unless-stopped
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      RABBITMQ_DEFAULT_USER: upsize
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+    networks:
+      - upsize-network
+
+
 volumes:
   mysql-data:
+  rabbitmq-data:
 
 
 networks:

@@ -1,3 +1,4 @@
+
 FROM php:8.3-cli
 
 WORKDIR /var/www
@@ -8,16 +9,18 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     default-mysql-client \
-    && docker-php-ext-install pdo_mysql
+    && docker-php-ext-install pdo_mysql sockets \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get update \
     && apt-get install -y nodejs
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
-RUN composer install
+RUN composer install --no-interaction --prefer-dist
 
 RUN npm install
 

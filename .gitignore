@@ -26,3 +26,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 .env.testing
+.env.docker
+.env.compose
+.env.compose
