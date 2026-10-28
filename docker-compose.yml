@@ -25,7 +25,6 @@ services:
     networks:
       - upsize-network
 
-
   mysql:
     image: mysql:8.0
 
@@ -46,7 +45,6 @@ services:
     networks:
       - upsize-network
 
-
   notification-service:
     build:
       context: ../UpSize-Notification-Service
@@ -59,7 +57,6 @@ services:
 
     networks:
       - upsize-network
-
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -82,11 +79,35 @@ services:
     networks:
       - upsize-network
 
+  event-consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: upsize-event-consumer
+
+    restart: unless-stopped
+
+    command: php artisan rabbitmq:consume-orders
+
+    working_dir: /var/www
+
+    volumes:
+      - .:/var/www
+
+    env_file:
+      - .env.docker
+
+    depends_on:
+      - mysql
+      - rabbitmq
+
+    networks:
+      - upsize-network
 
 volumes:
   mysql-data:
   rabbitmq-data:
-
 
 networks:
   upsize-network:

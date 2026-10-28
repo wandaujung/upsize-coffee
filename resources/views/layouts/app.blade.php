@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +22,8 @@
     </main>
 
     @include('components.footer')
+
+    @include('components.chatbot')
 
 </body>
 
