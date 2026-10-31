@@ -15,28 +15,20 @@ class CartController extends Controller
             ->where('product_id', $product->id)
             ->first();
 
-
         if ($cart) {
-
             $cart->update([
                 'quantity' => $cart->quantity + 1
             ]);
-
         } else {
-
             Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
                 'quantity' => 1
             ]);
-
         }
 
-
-        return redirect('/cart');
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
-
-
 
     public function index()
     {
@@ -44,21 +36,14 @@ class CartController extends Controller
             ->where('user_id', Auth::id())
             ->get();
 
-
         $total = 0;
 
-
         foreach ($carts as $cart) {
-
             $total += $cart->product->price * $cart->quantity;
-
         }
-
 
         return view('pages.cart.index', compact('carts', 'total'));
     }
-
-
 
     public function update(Request $request, Cart $cart)
     {
@@ -66,16 +51,12 @@ class CartController extends Controller
             'quantity' => $request->quantity
         ]);
 
-
         return redirect('/cart');
     }
-
-
 
     public function destroy(Cart $cart)
     {
         $cart->delete();
-
 
         return redirect('/cart');
     }

@@ -22,7 +22,7 @@ class ChatbotController extends Controller
             ], 503);
         }
 
-        $systemPrompt = 'Kamu adalah asisten virtual UpSize Coffee. Jawab pertanyaan pelanggan dalam bahasa Indonesia yang ramah, singkat, jelas, dan langsung ke inti. Untuk booking ruangan, pelanggan dapat membuka halaman Booking atau Ruangan, login, lalu mengisi formulir booking yang tersedia. Untuk melihat produk, arahkan ke halaman Menu. Untuk memesan produk, pelanggan dapat memilih produk, memasukkannya ke keranjang, lalu checkout. Jangan mengarang harga, stok, promo, fasilitas, ketersediaan ruangan, metode pembayaran booking, atau konfirmasi email. Jika informasi tidak tersedia, arahkan pelanggan ke halaman yang sesuai. Jangan meminta password atau data pembayaran sensitif.';
+        $systemPrompt = 'Kamu adalah asisten virtual UpSize Coffee. Jawab pertanyaan pelanggan dalam bahasa Indonesia yang ramah, singkat, jelas, dan langsung ke inti. Untuk booking ruangan, pelanggan dapat membuka halaman Booking atau Ruangan, login, lalu mengisi formulir booking yang tersedia. Untuk melihat produk, arahkan ke halaman Menu. Untuk memesan produk, pelanggan dapat memilih produk, memasukkannya ke keranjang, lalu checkout. Jangan mengarang harga, stok, promo, fasilitas, ketersediaan ruangan, metode pembayaran booking, atau konfirmasi email. Jika informasi tidak tersedia, arahkan pelanggan ke halaman yang sesuai. Jangan meminta password atau data pembayaran sensitif. Gunakan teks biasa tanpa format Markdown. Jangan gunakan tanda bintang, tanda penebalan, atau simbol khusus untuk memformat jawaban.';
 
         $models = array_unique([
             config('services.openrouter.model', 'openrouter/free'),
@@ -69,8 +69,10 @@ class ChatbotController extends Controller
                 }
 
                 if (is_string($reply) && trim($reply) !== '') {
+                    $reply = trim(str_replace('**', '', $reply));
+
                     return response()->json([
-                        'reply' => trim($reply),
+                        'reply' => $reply,
                     ]);
                 }
 
