@@ -1,0 +1,100 @@
+name: upsize-production
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: application
+    image: upsize-laravel:production
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    volumes:
+      - laravel-storage:/var/www/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+      notification-service:
+        condition: service_started
+    networks:
+      - upsize-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: web
+    image: upsize-nginx:production
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - laravel-storage:/var/www/storage:ro
+    depends_on:
+      - app
+    networks:
+      - upsize-network
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: upsize
+      MYSQL_USER: upsize
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD belum diatur}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD belum diatur}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - upsize-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: upsize
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:?RABBITMQ_DEFAULT_PASS belum diatur}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - upsize-network
+
+  notification-service:
+    build:
+      context: ../UpSize-Notification-Service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - upsize-network
+
+  event-consumer:
+    image: upsize-laravel:production
+    restart: unless-stopped
+    command: php artisan rabbitmq:consume-orders
+    working_dir: /var/www
+    env_file:
+      - .env.production
+    volumes:
+      - laravel-storage:/var/www/storage
+    depends_on:
+      app:
+        condition: service_started
+    networks:
+      - upsize-network
+
+volumes:
+  mysql-data:
+  rabbitmq-data:
+  laravel-storage:
+
+networks:
+  upsize-network:
+    driver: bridge
