@@ -25,7 +25,6 @@ class OrderController extends Controller
         $this->midtransService = $midtransService;
     }
 
-
     public function checkout()
     {
         $carts = Cart::with('product')
@@ -35,7 +34,6 @@ class OrderController extends Controller
         return view('pages.checkout.index', compact('carts'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
@@ -43,24 +41,31 @@ class OrderController extends Controller
             'table_number' => 'required',
         ]);
 
-
         $carts = Cart::with('product')
             ->where('user_id', Auth::id())
             ->get();
-
 
         if ($carts->count() == 0) {
             return redirect('/cart');
         }
 
+        foreach ($carts as $cart) {
+            if (
+                !$cart->product ||
+                $cart->quantity < 1 ||
+                $cart->quantity > $cart->product->stock
+            ) {
+                return redirect('/cart')->withErrors([
+                    'stock' => 'Stok produk tidak mencukupi. Silakan periksa kembali keranjang kamu.'
+                ]);
+            }
+        }
 
         $total = 0;
-
 
         foreach ($carts as $cart) {
             $total += $cart->product->price * $cart->quantity;
         }
-
 
         $order = Order::create([
             'user_id' => Auth::id(),
@@ -71,35 +76,26 @@ class OrderController extends Controller
             'payment_status' => 'pending',
         ]);
 
-
         foreach ($carts as $cart) {
-
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $cart->product_id,
                 'quantity' => $cart->quantity,
                 'price' => $cart->product->price,
             ]);
-
         }
 
-
         $snapToken = $this->midtransService->createTransaction($order);
-
 
         $order->update([
             'snap_token' => $snapToken
         ]);
 
-
         Cart::where('user_id', Auth::id())->delete();
-
 
         event(new OrderCreated($order));
 
-
         $this->notificationService->send($order);
-
 
         return redirect()
             ->route('payment.show', $order->id)

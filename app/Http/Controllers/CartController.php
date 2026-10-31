@@ -47,8 +47,14 @@ class CartController extends Controller
 
     public function update(Request $request, Cart $cart)
     {
+        abort_unless((int) $cart->user_id === (int) Auth::id(), 403);
+
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
         $cart->update([
-            'quantity' => $request->quantity
+            'quantity' => $validated['quantity']
         ]);
 
         return redirect('/cart');
@@ -56,6 +62,8 @@ class CartController extends Controller
 
     public function destroy(Cart $cart)
     {
+        abort_unless((int) $cart->user_id === (int) Auth::id(), 403);
+
         $cart->delete();
 
         return redirect('/cart');
