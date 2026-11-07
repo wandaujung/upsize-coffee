@@ -36,6 +36,7 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
     storage/framework/views \
     storage/logs \
     bootstrap/cache \
+    && cp -r deploy-assets/products storage/app/public/ \
     && rm -rf public/storage \
     && ln -s ../storage/app/public public/storage \
     && chown -R www-data:www-data storage bootstrap/cache
